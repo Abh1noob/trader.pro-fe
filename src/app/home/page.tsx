@@ -10,7 +10,7 @@ import ToolsAndProducts from "./_components/tools-and-products";
 import Watchlist from "./_components/watchlist-section";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { SearchIcon, BellIcon, UserCircleIcon, User } from "lucide-react";
+import { SearchIcon, User } from "lucide-react";
 
 const Dashboard: React.FC = () => {
   return (
