@@ -1,9 +1,10 @@
 "use client";
 
 import api from "@/api";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
+import { Button } from "@/components/Button";
+import { Input } from "@/components/Input";
+import { Label } from "@/components/Label";
+
 import { auth } from "@/lib/firebase";
 import { cn } from "@/lib/utils";
 
@@ -24,7 +25,7 @@ export function SignupForm({
       await signInWithPopup(auth, provider);
       const token = await auth.currentUser?.getIdToken();
       await api.post(
-        "/auth/signup",
+        "/auth/login",
         {},
         {
           headers: {
@@ -73,11 +74,7 @@ export function SignupForm({
             or sign up with
           </span>
         </div>
-        <Button
-          variant="outline"
-          className="w-full"
-          onClick={handleGoogleSignUp}
-        >
+        <Button className="w-full" onClick={handleGoogleSignUp}>
           <FcGoogle className="mr-2 h-4 w-4" />
           Sign up with Google
         </Button>
