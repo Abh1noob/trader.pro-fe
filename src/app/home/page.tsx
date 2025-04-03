@@ -8,8 +8,8 @@ import PortfolioSummary from "./_components/portfolio-summary";
 import StocksInNews from "./_components/stock-in-news";
 import ToolsAndProducts from "./_components/tools-and-products";
 import Watchlist from "./_components/watchlist-section";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
+import { Button } from "@/components/Button";
+import { Input } from "@/components/Input";
 import { SearchIcon, User } from "lucide-react";
 
 const Dashboard: React.FC = () => {

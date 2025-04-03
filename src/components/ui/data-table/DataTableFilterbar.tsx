@@ -1,33 +1,33 @@
-"use client"
+/* eslint-disable @typescript-eslint/no-explicit-any */
+"use client";
 
-import { Button } from "@/components/Button"
-import { Searchbar } from "@/components/Searchbar"
-import { conditions, regions, statuses } from "@/data/data"
-import { formatters } from "@/lib/utils"
-import { RiDownloadLine } from "@remixicon/react"
-import { Table } from "@tanstack/react-table"
-import { useState } from "react"
-import { useDebouncedCallback } from "use-debounce"
-import { DataTableFilter } from "./DataTableFilter"
-import { ViewOptions } from "./DataTableViewOptions"
+import { Button } from "@/components/Button";
+import { Searchbar } from "@/components/Searchbar";
+import { conditions, regions, statuses } from "@/data/data";
+import { RiDownloadLine } from "@remixicon/react";
+import { Table } from "@tanstack/react-table";
+import { useState } from "react";
+import { useDebouncedCallback } from "use-debounce";
+import { DataTableFilter } from "./DataTableFilter";
+import { ViewOptions } from "./DataTableViewOptions";
 
 interface DataTableToolbarProps<TData> {
-  table: Table<TData>
+  table: Table<TData>;
 }
 
 export function Filterbar<TData>({ table }: DataTableToolbarProps<TData>) {
-  const isFiltered = table.getState().columnFilters.length > 0
-  const [searchTerm, setSearchTerm] = useState<string>("")
+  const isFiltered = table.getState().columnFilters.length > 0;
+  const [searchTerm, setSearchTerm] = useState<string>("");
 
-  const debouncedSetFilterValue = useDebouncedCallback((value) => {
-    table.getColumn("owner")?.setFilterValue(value)
-  }, 300)
+  const debouncedSetFilterValue = useDebouncedCallback((value: any) => {
+    table.getColumn("owner")?.setFilterValue(value);
+  }, 300);
 
   const handleSearchChange = (event: any) => {
-    const value = event.target.value
-    setSearchTerm(value)
-    debouncedSetFilterValue(value)
-  }
+    const value = event.target.value;
+    setSearchTerm(value);
+    debouncedSetFilterValue(value);
+  };
 
   return (
     <div className="flex flex-wrap items-center justify-between gap-2 sm:gap-x-6">
@@ -54,7 +54,6 @@ export function Filterbar<TData>({ table }: DataTableToolbarProps<TData>) {
             title="Costs"
             type="number"
             options={conditions}
-            formatter={formatters.currency}
           />
         )}
         {table.getColumn("owner")?.getIsVisible() && (
@@ -87,5 +86,5 @@ export function Filterbar<TData>({ table }: DataTableToolbarProps<TData>) {
         <ViewOptions table={table} />
       </div>
     </div>
-  )
+  );
 }

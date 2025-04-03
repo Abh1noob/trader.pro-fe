@@ -1,47 +1,48 @@
 // Tremor Raw Popover [v0.0.0]
 
-import * as PopoverPrimitives from "@radix-ui/react-popover"
-import * as React from "react"
+import * as PopoverPrimitives from "@radix-ui/react-popover";
+import * as React from "react";
 
-import { cx } from "@/lib/utils"
+import { cx } from "@/lib/utils";
 
 const Popover = (
-  props: React.ComponentPropsWithoutRef<typeof PopoverPrimitives.Root>,
+  props: React.ComponentPropsWithoutRef<typeof PopoverPrimitives.Root>
 ) => {
-  return <PopoverPrimitives.Root {...props} />
-}
+  return <PopoverPrimitives.Root {...props} />;
+};
 
-Popover.displayName = "Popover"
+Popover.displayName = "Popover";
 
 const PopoverTrigger = React.forwardRef<
   React.ElementRef<typeof PopoverPrimitives.Trigger>,
   React.ComponentPropsWithoutRef<typeof PopoverPrimitives.Trigger>
 >((props, forwardedRef) => {
-  return <PopoverPrimitives.Trigger ref={forwardedRef} {...props} />
-})
+  return <PopoverPrimitives.Trigger ref={forwardedRef} {...props} />;
+});
 
-PopoverTrigger.displayName = "PopoverTrigger"
+PopoverTrigger.displayName = "PopoverTrigger";
 
 const PopoverAnchor = React.forwardRef<
   React.ElementRef<typeof PopoverPrimitives.Anchor>,
   React.ComponentPropsWithoutRef<typeof PopoverPrimitives.Anchor>
 >((props, forwardedRef) => {
-  return <PopoverPrimitives.Anchor ref={forwardedRef} {...props} />
-})
+  return <PopoverPrimitives.Anchor ref={forwardedRef} {...props} />;
+});
 
-PopoverAnchor.displayName = "PopoverAnchor"
+PopoverAnchor.displayName = "PopoverAnchor";
 
 const PopoverClose = React.forwardRef<
   React.ElementRef<typeof PopoverPrimitives.Close>,
   React.ComponentPropsWithoutRef<typeof PopoverPrimitives.Close>
 >((props, forwardedRef) => {
-  return <PopoverPrimitives.Close ref={forwardedRef} {...props} />
-})
+  return <PopoverPrimitives.Close ref={forwardedRef} {...props} />;
+});
 
-PopoverClose.displayName = "PopoverClose"
+PopoverClose.displayName = "PopoverClose";
 
-interface ContentProps
-  extends React.ComponentPropsWithoutRef<typeof PopoverPrimitives.Content> {}
+type ContentProps = React.ComponentPropsWithoutRef<
+  typeof PopoverPrimitives.Content
+>;
 
 const PopoverContent = React.forwardRef<
   React.ElementRef<typeof PopoverPrimitives.Content>,
@@ -54,10 +55,9 @@ const PopoverContent = React.forwardRef<
       side = "bottom",
       align = "center",
       collisionPadding,
-      avoidCollisions,
       ...props
     }: ContentProps,
-    forwardedRef,
+    forwardedRef
   ) => {
     return (
       <PopoverPrimitives.Portal>
@@ -82,28 +82,28 @@ const PopoverContent = React.forwardRef<
             "data-[state=closed]:animate-hide",
             "data-[state=open]:data-[side=bottom]:animate-slideDownAndFade data-[state=open]:data-[side=left]:animate-slideLeftAndFade data-[state=open]:data-[side=right]:animate-slideRightAndFade data-[state=open]:data-[side=top]:animate-slideUpAndFade",
 
-            className,
+            className
           )}
           // https://github.com/radix-ui/primitives/issues/1159
           onWheel={(event) => {
-            event.stopPropagation()
-            const isScrollingDown = event.deltaY > 0
+            event.stopPropagation();
+            const isScrollingDown = event.deltaY > 0;
             if (isScrollingDown) {
               event.currentTarget.dispatchEvent(
-                new KeyboardEvent("keydown", { key: "ArrowDown" }),
-              )
+                new KeyboardEvent("keydown", { key: "ArrowDown" })
+              );
             } else {
               event.currentTarget.dispatchEvent(
-                new KeyboardEvent("keydown", { key: "ArrowUp" }),
-              )
+                new KeyboardEvent("keydown", { key: "ArrowUp" })
+              );
             }
           }}
           {...props}
         />
       </PopoverPrimitives.Portal>
-    )
-  },
-)
-PopoverContent.displayName = "PopoverContent"
+    );
+  }
+);
+PopoverContent.displayName = "PopoverContent";
 
-export { Popover, PopoverAnchor, PopoverClose, PopoverContent, PopoverTrigger }
+export { Popover, PopoverAnchor, PopoverClose, PopoverContent, PopoverTrigger };

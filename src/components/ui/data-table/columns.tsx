@@ -1,16 +1,16 @@
-"use client"
+"use client";
 
-import { Badge, BadgeProps } from "@/components/Badge"
-import { Checkbox } from "@/components/Checkbox"
-import { statuses } from "@/data/data"
-import { Usage } from "@/data/schema"
-import { formatters } from "@/lib/utils"
-import { ColumnDef, createColumnHelper } from "@tanstack/react-table"
-import { DataTableColumnHeader } from "./DataTableColumnHeader"
-import { ConditionFilter } from "./DataTableFilter"
-import { DataTableRowActions } from "./DataTableRowActions"
+import { Badge, BadgeProps } from "@/components/Badge";
+import { Checkbox } from "@/components/Checkbox";
+import { statuses } from "@/data/data";
+import { Usage } from "@/data/schema";
 
-const columnHelper = createColumnHelper<Usage>()
+import { ColumnDef, createColumnHelper } from "@tanstack/react-table";
+import { DataTableColumnHeader } from "./DataTableColumnHeader";
+import { ConditionFilter } from "./DataTableFilter";
+import { DataTableRowActions } from "./DataTableRowActions";
+
+const columnHelper = createColumnHelper<Usage>();
 
 export const columns = [
   columnHelper.display({
@@ -21,8 +21,8 @@ export const columns = [
           table.getIsAllPageRowsSelected()
             ? true
             : table.getIsSomeRowsSelected()
-              ? "indeterminate"
-              : false
+            ? "indeterminate"
+            : false
         }
         onCheckedChange={() => table.toggleAllPageRowsSelected()}
         className="translate-y-0.5"
@@ -65,18 +65,18 @@ export const columns = [
     },
     cell: ({ row }) => {
       const status = statuses.find(
-        (item) => item.value === row.getValue("status"),
-      )
+        (item) => item.value === row.getValue("status")
+      );
 
       if (!status) {
-        return null
+        return null;
       }
 
       return (
         <Badge variant={status.variant as BadgeProps["variant"]}>
           {status.label}
         </Badge>
-      )
+      );
     },
   }),
   columnHelper.accessor("region", {
@@ -100,32 +100,32 @@ export const columns = [
       displayName: "Stability",
     },
     cell: ({ getValue }) => {
-      const value = getValue()
+      const value = getValue();
 
       function Indicator({ number }: { number: number }) {
-        let category
+        let category;
         if (number === 0) {
-          category = "zero"
+          category = "zero";
         } else if (number < 9) {
-          category = "bad"
+          category = "bad";
         } else if (number >= 9 && number <= 15) {
-          category = "ok"
+          category = "ok";
         } else {
-          category = "good"
+          category = "good";
         }
 
         const getBarClass = (index: number) => {
           if (category === "zero") {
-            return "bg-gray-300 dark:bg-gray-800"
+            return "bg-gray-300 dark:bg-gray-800";
           } else if (category === "good") {
-            return "bg-indigo-600 dark:bg-indigo-500"
+            return "bg-indigo-600 dark:bg-indigo-500";
           } else if (category === "ok" && index < 2) {
-            return "bg-indigo-600 dark:bg-indigo-500"
+            return "bg-indigo-600 dark:bg-indigo-500";
           } else if (category === "bad" && index < 1) {
-            return "bg-indigo-600 dark:bg-indigo-500"
+            return "bg-indigo-600 dark:bg-indigo-500";
           }
-          return "bg-gray-300 dark:bg-gray-800"
-        }
+          return "bg-gray-300 dark:bg-gray-800";
+        };
 
         return (
           <div className="flex gap-0.5">
@@ -133,7 +133,7 @@ export const columns = [
             <div className={`h-3.5 w-1 rounded-sm ${getBarClass(1)}`} />
             <div className={`h-3.5 w-1 rounded-sm ${getBarClass(2)}`} />
           </div>
-        )
+        );
       }
 
       return (
@@ -141,7 +141,7 @@ export const columns = [
           <span className="w-6">{value}</span>
           <Indicator number={value} />
         </div>
-      )
+      );
     },
   }),
   columnHelper.accessor("costs", {
@@ -154,25 +154,23 @@ export const columns = [
       displayName: "Costs",
     },
     cell: ({ getValue }) => {
-      return (
-        <span className="font-medium">{formatters.currency(getValue())}</span>
-      )
+      return <span className="font-medium">{getValue()}</span>;
     },
     filterFn: (row, columnId, filterValue: ConditionFilter) => {
-      const value = row.getValue(columnId) as number
-      const [min, max] = filterValue.value as [number, number]
+      const value = row.getValue(columnId) as number;
+      const [min, max] = filterValue.value as [number, number];
 
       switch (filterValue.condition) {
         case "is-equal-to":
-          return value == min
+          return value == min;
         case "is-between":
-          return value >= min && value <= max
+          return value >= min && value <= max;
         case "is-greater-than":
-          return value > min
+          return value > min;
         case "is-less-than":
-          return value < min
+          return value < min;
         default:
-          return true
+          return true;
       }
     },
   }),
@@ -197,4 +195,4 @@ export const columns = [
     },
     cell: ({ row }) => <DataTableRowActions row={row} />,
   }),
-] as ColumnDef<Usage>[]
+] as ColumnDef<Usage>[];
