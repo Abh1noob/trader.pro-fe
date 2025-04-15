@@ -1,9 +1,9 @@
-import Navbar from "@/components/Navbar";
+import Navbar from "@/components/navbar";
 import React from "react";
 
 const Layout = ({ children }: { children: React.ReactNode }) => {
   return (
-    <div>
+    <div className=" px-4 sm:px-6 lg:px-8 ">
       <Navbar />
       {children}
     </div>

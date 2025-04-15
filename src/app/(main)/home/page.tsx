@@ -11,7 +11,7 @@ import Watchlist from "./_components/watchlist-section";
 const Dashboard: React.FC = () => {
   return (
     <div className="min-h-screen ">
-      <main className="max-w-full mx-auto px-4 sm:px-6 lg:px-8 py-6">
+      <main className="max-w-full mx-auto">
         <div className="flex flex-col lg:flex-row gap-6">
           <div className="w-full lg:w-2/3 space-y-6">
             <MarketIndices />
