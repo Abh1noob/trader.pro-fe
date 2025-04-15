@@ -5,6 +5,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { SearchResponse } from "./types";
 import { searchCompanies } from "./service";
+import Link from "next/link";
 
 const popularCompanies = [
   {
@@ -153,9 +154,10 @@ const SearchComponent: React.FC<SearchComponentProps> = ({
 
           {searchData && searchData.results.length > 0 && (
             <div className="space-y-1">
-              {searchData.results.map((result) => (
-                <div
-                  key={result._id}
+              {searchData.results.map((result, index) => (
+                <Link
+                  key={index}
+                  href={`/stocks/${result.short_name}`}
                   className="flex items-center cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-700 px-3 py-2"
                 >
                   <TrendingUp className="h-4 w-4 text-gray-500 dark:text-gray-400 mr-3" />
@@ -167,7 +169,7 @@ const SearchComponent: React.FC<SearchComponentProps> = ({
                       {result.exchange_code}
                     </span>
                   </div>
-                </div>
+                </Link>
               ))}
             </div>
           )}

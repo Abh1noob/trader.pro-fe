@@ -28,35 +28,35 @@ const TradingViewWidget: React.FC = () => {
       width: chartContainerRef.current.clientWidth,
       height: chartContainerRef.current.clientHeight,
       layout: {
-        background: { color: "#2E282A" }, // Raisin black
-        textColor: "#DDEDAA", // Tea green
+        background: { color: "#f3f4f6" },
+        textColor: "#111827",
       },
       grid: {
-        vertLines: { color: "#2E282A" }, // Darker shade for grid
-        horzLines: { color: "#2E282A" }, // Darker shade for grid
+        vertLines: { color: "#e5e7eb" },
+        horzLines: { color: "#e5e7eb" },
       },
       crosshair: {
         mode: 0,
         vertLine: {
-          color: "#17BEBB", // Verdigris
+          color: "#6b7280",
           width: 1,
           style: 1,
-          labelBackgroundColor: "#17BEBB", // Verdigris
+          labelBackgroundColor: "#6b7280",
         },
         horzLine: {
-          color: "#17BEBB", // Verdigris
+          color: "#6b7280",
           width: 1,
           style: 1,
-          labelBackgroundColor: "#17BEBB", // Verdigris
+          labelBackgroundColor: "#6b7280",
         },
       },
       timeScale: {
         timeVisible: true,
         secondsVisible: timeframe === "1m",
-        borderColor: "#17BEBB", // Verdigris
+        borderColor: "#d1d5db",
       },
       rightPriceScale: {
-        borderColor: "#17BEBB", // Verdigris
+        borderColor: "#d1d5db",
       },
       handleScroll: {
         mouseWheel: true,
@@ -68,6 +68,17 @@ const TradingViewWidget: React.FC = () => {
         axisPressedMouseMove: true,
         mouseWheel: true,
         pinch: true,
+      },
+    });
+
+    chart.applyOptions({
+      layout: {
+        background: { color: "#111827" },
+        textColor: "#f3f4f6",
+      },
+      grid: {
+        vertLines: { color: "#1f2937" },
+        horzLines: { color: "#1f2937" },
       },
     });
 
@@ -111,11 +122,11 @@ const TradingViewWidget: React.FC = () => {
     switch (chartType) {
       case "candlestick": {
         const candlestickSeries = chartRef.current.addCandlestickSeries({
-          upColor: "#DDEDAA", // Tea green for up
-          downColor: "#FE5F55", // Bittersweet for down
+          upColor: "#10b981",
+          downColor: "#ef4444",
           borderVisible: false,
-          wickUpColor: "#DDEDAA", // Tea green for up wick
-          wickDownColor: "#FE5F55", // Bittersweet for down wick
+          wickUpColor: "#10b981",
+          wickDownColor: "#ef4444",
         });
         candlestickSeries.setData(customData);
         seriesRef.current = candlestickSeries;
@@ -123,7 +134,7 @@ const TradingViewWidget: React.FC = () => {
       }
       case "line": {
         const lineSeries = chartRef.current.addLineSeries({
-          color: "#17BEBB", // Verdigris
+          color: "#3b82f6",
           lineWidth: 2,
           crosshairMarkerVisible: true,
           crosshairMarkerRadius: 6,
@@ -138,9 +149,9 @@ const TradingViewWidget: React.FC = () => {
       }
       case "area": {
         const areaSeries = chartRef.current.addAreaSeries({
-          topColor: "rgba(23, 190, 187, 0.56)", // Verdigris with opacity
-          bottomColor: "rgba(23, 190, 187, 0.04)", // Verdigris with low opacity
-          lineColor: "#17BEBB", // Verdigris
+          topColor: "rgba(59, 130, 246, 0.56)",
+          bottomColor: "rgba(59, 130, 246, 0.04)",
+          lineColor: "#3b82f6",
           lineWidth: 2,
           crosshairMarkerVisible: true,
           crosshairMarkerRadius: 6,
@@ -170,8 +181,8 @@ const TradingViewWidget: React.FC = () => {
     <button
       className={`flex items-center gap-2 px-4 py-2 rounded-md transition-all ${
         chartType === type
-          ? "bg-[#17BEBB] text-[#2E282A] shadow-md" // Active: Verdigris background with Raisin black text
-          : "bg-[#2E282A] text-[#DDEDAA] hover:bg-[#FE5F55] hover:text-[#2E282A]" // Inactive: Raisin black with Tea green text, hover: Bittersweet
+          ? "bg-gray-900 text-gray-100 dark:bg-gray-100 dark:text-gray-900 shadow-md"
+          : "bg-gray-100 text-gray-900 dark:bg-gray-900 dark:text-gray-100 hover:bg-gray-200 dark:hover:bg-gray-800"
       }`}
       onClick={() => setChartType(type)}
     >
@@ -190,8 +201,8 @@ const TradingViewWidget: React.FC = () => {
     <button
       className={`px-3 py-1 rounded-md transition-all ${
         timeframe === value
-          ? "bg-[#17BEBB] text-[#2E282A] font-medium" // Active: Verdigris background with Raisin black text
-          : "bg-[#2E282A] text-[#DDEDAA] hover:bg-[#FE5F55] hover:text-[#2E282A]" // Inactive: Raisin black with Tea green text, hover: Bittersweet
+          ? "bg-gray-900 text-gray-100 dark:bg-gray-100 dark:text-gray-900 font-medium"
+          : "bg-gray-100 text-gray-900 dark:bg-gray-900 dark:text-gray-100 hover:bg-gray-200 dark:hover:bg-gray-800"
       }`}
       onClick={() => setTimeframe(value)}
     >
@@ -200,21 +211,14 @@ const TradingViewWidget: React.FC = () => {
   );
 
   return (
-    <div className="flex flex-col h-screen bg-[#2E282A] text-[#DDEDAA]">
-      {" "}
-      {/* Raisin black background with Tea green text */}
+    <div className="flex flex-col h-screen bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-gray-100">
       {/* Header */}
-      <div className="flex justify-between items-center p-3 border-b border-[#17BEBB] bg-[#2E282A]">
-        {" "}
-        {/* Raisin black background with Verdigris border */}
+      <div className="flex justify-between items-center p-3 border-b border-gray-300 dark:border-gray-700 bg-gray-100 dark:bg-gray-900">
         <div className="flex items-center">
-          <TrendingUp className="h-5 w-5 text-[#FE5F55] mr-2" />{" "}
-          {/* Bittersweet icon */}
+          <TrendingUp className="h-5 w-5 text-blue-500 mr-2" />
           <h1 className="text-lg font-semibold">Stock Name</h1>
         </div>
-        <div className="flex justify-center gap-2 p-2 bg-[#2E282A]">
-          {" "}
-          {/* Raisin black background */}
+        <div className="flex justify-center gap-2 p-2">
           <TimeframeButton value="1m" label="1m" />
           <TimeframeButton value="15m" label="15m" />
           <TimeframeButton value="30m" label="30m" />
@@ -248,12 +252,12 @@ const TradingViewWidget: React.FC = () => {
         />
       </div>
       {/* Footer */}
-      <div className="tradingview-widget-copyright py-2 px-3 text-center bg-[#2E282A] border-t border-[#17BEBB] text-xs text-[#DDEDAA]">
+      <div className="tradingview-widget-copyright py-2 px-3 text-center bg-gray-100 dark:bg-gray-900 border-t border-gray-300 dark:border-gray-700 text-xs">
         <a
           href="https://www.tradingview.com/"
           rel="noopener nofollow"
           target="_blank"
-          className="text-[#FE5F55] hover:text-[#17BEBB]" // Bittersweet link with Verdigris hover
+          className="text-blue-500 hover:text-blue-600 dark:hover:text-blue-400"
         >
           Powered by TradingView
         </a>
