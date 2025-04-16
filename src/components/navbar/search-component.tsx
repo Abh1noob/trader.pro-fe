@@ -132,9 +132,10 @@ const SearchComponent: React.FC<SearchComponentProps> = ({
                 Popular on Trader.pro
               </h2>
               <div className="space-y-1">
-                {popularCompanies.map((company) => (
-                  <div
-                    key={company._id}
+                {popularCompanies.map((company, index) => (
+                  <Link
+                    key={index}
+                    href={`/chart/${company.short_name}`}
                     className="flex items-center cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-700 px-3 py-2"
                   >
                     <TrendingUp className="h-4 w-4 text-gray-500 dark:text-gray-400 mr-3" />
@@ -146,7 +147,7 @@ const SearchComponent: React.FC<SearchComponentProps> = ({
                         {company.exchange_code}
                       </span>
                     </div>
-                  </div>
+                  </Link>
                 ))}
               </div>
             </>
