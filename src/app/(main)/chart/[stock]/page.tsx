@@ -29,10 +29,18 @@ const TradingViewWidget: React.FC = () => {
   const [timeframe, setTimeframe] = useState<Timeframe>("1m");
   const [showSettings, setShowSettings] = useState<boolean>(false);
 
+  const simulationDateString =
+    typeof window !== "undefined"
+      ? localStorage.getItem("simulationDate")
+      : null;
+  const simulationDate = simulationDateString
+    ? new Date(simulationDateString)
+    : new Date();
+
   const [settings, setSettings] = useState({
     interval: "1minute",
-    from_date: new Date(new Date().setHours(0, 0, 0, 0)).toISOString(),
-    to_date: new Date().toISOString(),
+    from_date: new Date("2024-04-01T00:00:00").toISOString(),
+    to_date: new Date(simulationDate.setHours(23, 59, 59, 999)).toISOString(),
     stock_code: stockCode,
     exchange_code: "NSE",
     product_type: "cash",
