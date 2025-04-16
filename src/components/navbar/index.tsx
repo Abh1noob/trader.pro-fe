@@ -6,7 +6,7 @@ import NavigationLinks from "./navigation-links";
 import SearchComponent from "./search-component";
 import { Button } from "../button";
 import { Calendar } from "@/components/ui/calendar";
-import { format, parseISO, isValid } from "date-fns";
+import { format } from "date-fns";
 import { Input } from "../Input";
 import { Label } from "../Label";
 
@@ -18,25 +18,23 @@ const navLinks = [
 ];
 
 function useLocalStorageDate(key: string, initialValue?: Date) {
-  const [storedValue, setStoredValue] = useState<Date | undefined>(() => {
-    if (typeof window === "undefined") return initialValue;
+  const [storedValue, setStoredValue] = useState<Date>(() => {
+    if (typeof window === "undefined") return initialValue ?? new Date();
     try {
       const item = window.localStorage.getItem(key);
       if (item) {
-        const date = parseISO(item);
-        return isValid(date) ? date : undefined;
+        const date = new Date(item);
+        return isNaN(date.getTime()) ? new Date() : date;
       }
-      return initialValue;
+      return initialValue ?? new Date();
     } catch (error) {
       console.error("Error reading localStorage key:", error);
-      return initialValue;
+      return new Date();
     }
   });
 
   useEffect(() => {
-    if (storedValue) {
-      window.localStorage.setItem(key, storedValue.toISOString());
-    }
+    window.localStorage.setItem(key, storedValue.toISOString());
   }, [key, storedValue]);
 
   return [storedValue, setStoredValue] as const;
@@ -47,44 +45,20 @@ const Navbar = () => {
   const [showSimDateModal, setShowSimDateModal] = useState(false);
   const [simulationDate, setSimulationDate] = useLocalStorageDate(
     "simulationDate",
-    undefined
-  );
-  const [liveSimDate, setLiveSimDate] = useState<Date | undefined>(
-    simulationDate
+    new Date()
   );
   const [tempDate, setTempDate] = useState<Date | undefined>(simulationDate);
-  const [tempTime, setTempTime] = useState(
-    simulationDate ? format(simulationDate, "HH:mm:ss") : "00:00:00"
-  );
+  const [tempTime, setTempTime] = useState(format(simulationDate, "HH:mm:ss"));
+
+  const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
 
   useEffect(() => {
-    setLiveSimDate(simulationDate);
-  }, [simulationDate]);
-
-  useEffect(() => {
-    if (!liveSimDate) return;
-
     const timer = setInterval(() => {
-      setLiveSimDate((prev) =>
-        prev ? new Date(prev.getTime() + 1000) : undefined
-      );
+      setSimulationDate((prev) => new Date(prev.getTime() + 1000));
     }, 1000);
 
     return () => clearInterval(timer);
-  }, [liveSimDate]);
-
-  useEffect(() => {
-    if (liveSimDate) {
-      window.localStorage.setItem("simulationDate", liveSimDate.toISOString());
-    }
-  }, [liveSimDate]);
-
-  useEffect(() => {
-    setTempTime(liveSimDate ? format(liveSimDate, "HH:mm:ss") : "00:00:00");
-    setTempDate(liveSimDate);
-  }, [liveSimDate]);
-
-  const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
+  }, []);
 
   const handleSaveDate = () => {
     if (tempDate && tempTime) {
@@ -129,17 +103,19 @@ const Navbar = () => {
             </div>
 
             <Button
-              className="rounded-md px-3 py-2 "
-              onClick={() => setShowSimDateModal(true)}
+              className="rounded-md px-3 py-2"
+              onClick={() => {
+                setTempDate(simulationDate);
+                setTempTime(format(simulationDate, "HH:mm:ss"));
+                setShowSimDateModal(true);
+              }}
             >
               Set Simulation Date
             </Button>
 
-            {liveSimDate && (
-              <span className="text-xs text-gray-600 dark:text-gray-300 px-2">
-                Simulation: {format(liveSimDate, "yyyy-MM-dd HH:mm:ss")}
-              </span>
-            )}
+            <span className="text-xs text-gray-600 dark:text-gray-300 px-2">
+              Simulation: {format(simulationDate, "yyyy-MM-dd HH:mm:ss")}
+            </span>
 
             <Button className="rounded-full p-2 bg-gray-100 hover:bg-gray-200 dark:bg-gray-800 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-300 transition-colors">
               <User className="h-5 w-5" />
@@ -169,15 +145,18 @@ const Navbar = () => {
 
               <Button
                 className="rounded-md px-3 py-2 bg-blue-600 text-white hover:bg-blue-700"
-                onClick={() => setShowSimDateModal(true)}
+                onClick={() => {
+                  setTempDate(simulationDate);
+                  setTempTime(format(simulationDate, "HH:mm:ss"));
+                  setShowSimDateModal(true);
+                }}
               >
                 Set Simulation Date
               </Button>
-              {liveSimDate && (
-                <span className="text-xs text-gray-600 dark:text-gray-300 px-2">
-                  Simulation: {format(liveSimDate, "yyyy-MM-dd HH:mm:ss")}
-                </span>
-              )}
+
+              <span className="text-xs text-gray-600 dark:text-gray-300 px-2">
+                Simulation: {format(simulationDate, "yyyy-MM-dd HH:mm:ss")}
+              </span>
             </div>
           </div>
         )}
@@ -213,7 +192,7 @@ const Navbar = () => {
                 </Button>
                 <Button
                   variant="primary"
-                  className="px-4 py-2 rounded text-white"
+                  className="px-4 py-2 rounded text-white bg-blue-600 hover:bg-blue-700"
                   onClick={handleSaveDate}
                   disabled={!tempDate}
                 >

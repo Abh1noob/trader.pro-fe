@@ -1,7 +1,7 @@
 "use client";
 
-import api from "@/app/api";
-import { Button } from "@/components/Button";
+import { api } from "@/app/api";
+import { Button } from "@/components/button";
 import { Input } from "@/components/Input";
 import { Label } from "@/components/Label";
 import { auth } from "@/lib/firebase";
@@ -69,10 +69,10 @@ export function LoginForm({
             or continue with
           </span>
         </div>
-        <Button className="w-full" onClick={handleGoogleSignIn}>
+        <div className="w-full" onClick={handleGoogleSignIn}>
           <FcGoogle className="mr-2 h-4 w-4" />
           Login with Google
-        </Button>
+        </div>
       </div>
       <Link href={"/auth/signup"} className="text-center text-sm">
         Don&apos;t have an account?{" "}
