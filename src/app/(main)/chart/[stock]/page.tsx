@@ -14,6 +14,10 @@ import { Settings, TrendingUp } from "lucide-react";
 import ChartControls from "./_components/ChartControls";
 import SettingsPanel from "./_components/SettingsPanel";
 import ChartFooter from "./_components/ChartFooter";
+import TradeForm from "./_components/TradeForm";
+import { Button } from "@/components/button";
+import { Dialog, DialogContent, DialogTrigger } from "@/components/Dialog";
+import { RiHammerLine } from "@remixicon/react";
 
 const TradingViewWidget: React.FC = () => {
   const params = useParams();
@@ -44,12 +48,6 @@ const TradingViewWidget: React.FC = () => {
     queryFn: () => getHistoricalData(settings),
     enabled: !!settings.stock_code,
   });
-
-  useEffect(() => {
-    setInterval(() => {
-      refetch();
-    }, 1000 * 60);
-  }, []);
 
   useEffect(() => {
     if (!chartContainerRef.current) return;
@@ -157,7 +155,7 @@ const TradingViewWidget: React.FC = () => {
           </h1>
         </div>
         <div className="flex justify-center gap-2 p-2">
-          <button
+          <Button
             className={`px-3 py-1 rounded-md transition-all ${
               timeframe === "1m"
                 ? "bg-gray-900 text-gray-100 dark:bg-gray-100 dark:text-gray-900 font-medium"
@@ -166,8 +164,8 @@ const TradingViewWidget: React.FC = () => {
             onClick={() => setTimeframe("1m")}
           >
             1m
-          </button>
-          <button
+          </Button>
+          <Button
             className={`px-3 py-1 rounded-md transition-all ${
               timeframe === "15m"
                 ? "bg-gray-900 text-gray-100 dark:bg-gray-100 dark:text-gray-900 font-medium"
@@ -176,8 +174,8 @@ const TradingViewWidget: React.FC = () => {
             onClick={() => setTimeframe("15m")}
           >
             15m
-          </button>
-          <button
+          </Button>
+          <Button
             className={`px-3 py-1 rounded-md transition-all ${
               timeframe === "30m"
                 ? "bg-gray-900 text-gray-100 dark:bg-gray-100 dark:text-gray-900 font-medium"
@@ -186,8 +184,8 @@ const TradingViewWidget: React.FC = () => {
             onClick={() => setTimeframe("30m")}
           >
             30m
-          </button>
-          <button
+          </Button>
+          <Button
             className={`px-3 py-1 rounded-md transition-all ${
               timeframe === "1h"
                 ? "bg-gray-900 text-gray-100 dark:bg-gray-100 dark:text-gray-900 font-medium"
@@ -196,8 +194,8 @@ const TradingViewWidget: React.FC = () => {
             onClick={() => setTimeframe("1h")}
           >
             1h
-          </button>
-          <button
+          </Button>
+          <Button
             className={`px-3 py-1 rounded-md transition-all ${
               timeframe === "1d"
                 ? "bg-gray-900 text-gray-100 dark:bg-gray-100 dark:text-gray-900 font-medium"
@@ -206,18 +204,37 @@ const TradingViewWidget: React.FC = () => {
             onClick={() => setTimeframe("1d")}
           >
             1d
-          </button>
+          </Button>
         </div>
         {/* Chart Type and Settings */}
         <div className="flex gap-1">
           <ChartControls chartType={chartType} setChartType={setChartType} />
-          <button
+          <Button
             onClick={() => setShowSettings(!showSettings)}
             className="flex items-center gap-2 px-4 py-2 rounded-md transition-all bg-gray-100 text-gray-900 dark:bg-gray-900 dark:text-gray-100 hover:bg-gray-200 dark:hover:bg-gray-800"
           >
             <Settings className="h-4 w-4" />
             <span className="hidden sm:inline">Settings</span>
-          </button>
+          </Button>
+          <Dialog>
+            <DialogTrigger asChild>
+              <Button className="flex items-center gap-2 px-4 py-2 rounded-md transition-all bg-indigo-600 hover:bg-indigo-700 text-white">
+                <RiHammerLine className="h-4 w-4" />
+                <span className="hidden sm:inline">Place Trade</span>
+              </Button>
+            </DialogTrigger>
+            <DialogContent className="p-0 bg-transparent border-none shadow-xl w-fit">
+              <TradeForm
+                stockCode={settings.stock_code}
+                onSuccess={refetch}
+                close={
+                  marketData && marketData.length > 0
+                    ? marketData[marketData.length - 1].close || 0
+                    : 0
+                }
+              />
+            </DialogContent>
+          </Dialog>
         </div>
       </div>
       {/* Chart Container */}
@@ -238,6 +255,7 @@ const TradingViewWidget: React.FC = () => {
           className="tradingview-widget-container h-full w-full"
           ref={chartContainerRef}
         />
+
         {showSettings && (
           <SettingsPanel
             settings={settings}
