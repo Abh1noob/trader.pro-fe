@@ -157,7 +157,7 @@ const SearchComponent: React.FC<SearchComponentProps> = ({
               {searchData.results.map((result, index) => (
                 <Link
                   key={index}
-                  href={`/stocks/${result.short_name}`}
+                  href={`/chart/${result.short_name}`}
                   className="flex items-center cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-700 px-3 py-2"
                 >
                   <TrendingUp className="h-4 w-4 text-gray-500 dark:text-gray-400 mr-3" />
