@@ -1,6 +1,7 @@
 import React from "react";
 import { X } from "lucide-react";
 import { ChartSettings } from "./ChartFooter";
+import { Button } from "@/components/button";
 
 interface SettingsPanelProps {
   settings: ChartSettings;
@@ -23,12 +24,12 @@ const SettingsPanel: React.FC<SettingsPanelProps> = ({
     <div className="absolute top-0 right-0 bottom-0 w-80 bg-gray-800 text-gray-100 p-4 shadow-lg z-20 overflow-y-auto">
       <div className="flex justify-between items-center mb-4">
         <h2 className="text-xl font-bold">Settings</h2>
-        <button
+        <Button
           onClick={() => setShowSettings(false)}
           className="p-1 rounded-full hover:bg-gray-700"
         >
           <X className="h-5 w-5" />
-        </button>
+        </Button>
       </div>
 
       <div className="space-y-4">
@@ -36,7 +37,7 @@ const SettingsPanel: React.FC<SettingsPanelProps> = ({
           <label className="block text-sm font-medium mb-1">Product Type</label>
           <div className="flex flex-wrap gap-2">
             {["cash", "margin"].map((type) => (
-              <button
+              <Button
                 key={type}
                 className={`px-3 py-1 rounded-md ${
                   settings.product_type === type ? "bg-blue-600" : "bg-gray-700"
@@ -44,7 +45,7 @@ const SettingsPanel: React.FC<SettingsPanelProps> = ({
                 onClick={() => setSettings({ ...settings, product_type: type })}
               >
                 {type.charAt(0).toUpperCase() + type.slice(1)}
-              </button>
+              </Button>
             ))}
           </div>
         </div>
@@ -95,30 +96,30 @@ const SettingsPanel: React.FC<SettingsPanelProps> = ({
                 Option Type
               </label>
               <div className="flex gap-2">
-                <button
+                <Button
                   className={`px-3 py-1 rounded-md ${
                     settings.right === "call" ? "bg-blue-600" : "bg-gray-700"
                   }`}
                   onClick={() => setSettings({ ...settings, right: "call" })}
                 >
                   Call
-                </button>
-                <button
+                </Button>
+                <Button
                   className={`px-3 py-1 rounded-md ${
                     settings.right === "put" ? "bg-blue-600" : "bg-gray-700"
                   }`}
                   onClick={() => setSettings({ ...settings, right: "put" })}
                 >
                   Put
-                </button>
-                <button
+                </Button>
+                <Button
                   className={`px-3 py-1 rounded-md ${
                     settings.right === "others" ? "bg-blue-600" : "bg-gray-700"
                   }`}
                   onClick={() => setSettings({ ...settings, right: "others" })}
                 >
                   Others
-                </button>
+                </Button>
               </div>
             </div>
 
@@ -145,7 +146,7 @@ const SettingsPanel: React.FC<SettingsPanelProps> = ({
           </>
         )}
 
-        <button
+        <Button
           onClick={() => {
             setShowSettings(false);
             refetch();
@@ -153,7 +154,7 @@ const SettingsPanel: React.FC<SettingsPanelProps> = ({
           className="w-full py-2 bg-blue-600 hover:bg-blue-700 rounded-md font-medium"
         >
           Apply Settings
-        </button>
+        </Button>
       </div>
     </div>
   );

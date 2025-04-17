@@ -18,6 +18,7 @@ const TradeForm: React.FC<TradeFormProps> = ({ stockCode, onSuccess }) => {
   const [loading, setLoading] = useState(false);
   const [formError, setFormError] = useState<string | null>(null);
   const [success, setSuccess] = useState(false);
+  const [simDate, setSimDate] = useState<string | null>(null);
 
   const [settings, setSettings] = useState({
     interval: "1day",
@@ -35,6 +36,7 @@ const TradeForm: React.FC<TradeFormProps> = ({ stockCode, onSuccess }) => {
     if (typeof window !== "undefined") {
       const date =
         localStorage.getItem("simulationDate") || new Date().toISOString();
+      setSimDate(date);
       setSettings((prev) => ({
         ...prev,
         from_date: date,
@@ -73,6 +75,7 @@ const TradeForm: React.FC<TradeFormProps> = ({ stockCode, onSuccess }) => {
         trade_type: tradeType,
         quantity: Number(quantity),
         price: currentPrice,
+        executed_at: simDate,
       });
       setLoading(false);
       setSuccess(true);

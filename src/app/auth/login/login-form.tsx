@@ -69,7 +69,18 @@ export function LoginForm({
             or continue with
           </span>
         </div>
-        <div className="w-full" onClick={handleGoogleSignIn}>
+        <div
+          className={cn(
+            "relative inline-flex items-center justify-center whitespace-nowrap rounded-md border px-3 py-2 text-center text-sm font-medium shadow-sm transition-all duration-100 ease-in-out",
+            "border-transparent",
+            "text-white dark:text-gray-900",
+            "bg-indigo-600 dark:bg-indigo-500",
+            "hover:bg-indigo-500 dark:hover:bg-indigo-600",
+            "disabled:bg-indigo-100 disabled:text-gray-400",
+            "disabled:dark:bg-indigo-800 disabled:dark:text-indigo-400"
+          )}
+          onClick={handleGoogleSignIn}
+        >
           <FcGoogle className="mr-2 h-4 w-4" />
           Login with Google
         </div>

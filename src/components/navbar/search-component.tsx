@@ -103,11 +103,11 @@ const SearchComponent: React.FC<SearchComponentProps> = ({
   });
 
   return (
-    <div ref={searchRef} className={`relative ${containerClassName}`}>
+    <div ref={searchRef} className={`relative ${containerClassName} h-10`}>
       <div className="relative">
         <SearchIcon className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 dark:text-gray-500 h-5 w-5" />
         <input
-          className={`pl-10 pr-10 py-2 w-full border border-gray-300 dark:border-gray-700 rounded-md focus:outline-none   bg-gray-50 dark:bg-gray-800 text-gray-900 dark:text-gray-100 ${className}`}
+          className={`pl-10 pr-10 py-2 w-full border border-gray-300 dark:border-gray-700 rounded-md focus:outline-none  bg-gray-50 dark:bg-gray-800 text-gray-900 dark:text-gray-100 ${className} h-8 mt-1`}
           placeholder="Search stocks..."
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
@@ -137,6 +137,7 @@ const SearchComponent: React.FC<SearchComponentProps> = ({
                     key={index}
                     href={`/chart/${company.short_name}`}
                     className="flex items-center cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-700 px-3 py-2"
+                    onClick={() => setIsInputActive(false)}
                   >
                     <TrendingUp className="h-4 w-4 text-gray-500 dark:text-gray-400 mr-3" />
                     <div className="flex flex-col">
