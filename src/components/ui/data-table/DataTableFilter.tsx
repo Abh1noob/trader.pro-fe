@@ -8,7 +8,7 @@ import {
 import { Column } from "@tanstack/react-table";
 
 import { Button } from "@/components/button";
-import { Checkbox } from "@/components/Checkbox";
+import { Checkbox } from "@/components/checkbox";
 import { Input } from "@/components/Input";
 import { Label } from "@/components/Label";
 import {

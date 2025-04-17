@@ -1,4 +1,4 @@
-import { Badge } from "@/components/Badge";
+import { Badge } from "@/components/badge";
 import { Button } from "@/components/button";
 import {
   Dialog,

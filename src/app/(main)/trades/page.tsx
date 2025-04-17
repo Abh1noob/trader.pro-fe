@@ -123,16 +123,6 @@ export default function TradesPage() {
               return;
             }
 
-            const symbolTrades = tradesBySymbol[symbol] || [];
-            const mostRecentTrade = symbolTrades.reduce(
-              (latest, t) =>
-                !latest ||
-                new Date(t.executed_at) > new Date(latest.executed_at)
-                  ? t
-                  : latest,
-              undefined as Trade | undefined
-            );
-
             const settings = {
               interval: "1day",
               from_date: fromDateISO,

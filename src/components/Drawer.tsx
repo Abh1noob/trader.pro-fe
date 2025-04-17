@@ -1,19 +1,19 @@
 // Tremor Raw Drawer [v0.0.0]
 
-import * as DrawerPrimitives from "@radix-ui/react-dialog"
-import { RiCloseLine } from "@remixicon/react"
-import * as React from "react"
+import * as DrawerPrimitives from "@radix-ui/react-dialog";
+import { RiCloseLine } from "@remixicon/react";
+import * as React from "react";
 
-import { cx, focusRing } from "@/lib/utils"
+import { cx, focusRing } from "@/lib/utils";
 
-import { Button } from "./Button"
+import { Button } from "./button";
 
 const Drawer = (
-  props: React.ComponentPropsWithoutRef<typeof DrawerPrimitives.Root>,
+  props: React.ComponentPropsWithoutRef<typeof DrawerPrimitives.Root>
 ) => {
-  return <DrawerPrimitives.Root {...props} />
-}
-Drawer.displayName = "Drawer"
+  return <DrawerPrimitives.Root {...props} />;
+};
+Drawer.displayName = "Drawer";
 
 const DrawerTrigger = React.forwardRef<
   React.ElementRef<typeof DrawerPrimitives.Trigger>,
@@ -21,9 +21,9 @@ const DrawerTrigger = React.forwardRef<
 >(({ className, ...props }, ref) => {
   return (
     <DrawerPrimitives.Trigger ref={ref} className={cx(className)} {...props} />
-  )
-})
-DrawerTrigger.displayName = "Drawer.Trigger"
+  );
+});
+DrawerTrigger.displayName = "Drawer.Trigger";
 
 const DrawerClose = React.forwardRef<
   React.ElementRef<typeof DrawerPrimitives.Close>,
@@ -31,13 +31,13 @@ const DrawerClose = React.forwardRef<
 >(({ className, ...props }, ref) => {
   return (
     <DrawerPrimitives.Close ref={ref} className={cx(className)} {...props} />
-  )
-})
-DrawerClose.displayName = "Drawer.Close"
+  );
+});
+DrawerClose.displayName = "Drawer.Close";
 
-const DrawerPortal = DrawerPrimitives.Portal
+const DrawerPortal = DrawerPrimitives.Portal;
 
-DrawerPortal.displayName = "DrawerPortal"
+DrawerPortal.displayName = "DrawerPortal";
 
 const DrawerOverlay = React.forwardRef<
   React.ElementRef<typeof DrawerPrimitives.Overlay>,
@@ -53,7 +53,7 @@ const DrawerOverlay = React.forwardRef<
         "bg-black/30",
         // transition
         "data-[state=closed]:animate-hide data-[state=open]:animate-dialogOverlayShow",
-        className,
+        className
       )}
       {...props}
       style={{
@@ -61,10 +61,10 @@ const DrawerOverlay = React.forwardRef<
         animationFillMode: "backwards",
       }}
     />
-  )
-})
+  );
+});
 
-DrawerOverlay.displayName = "DrawerOverlay"
+DrawerOverlay.displayName = "DrawerOverlay";
 
 const DrawerContent = React.forwardRef<
   React.ElementRef<typeof DrawerPrimitives.Content>,
@@ -85,16 +85,16 @@ const DrawerContent = React.forwardRef<
             // transition
             "data-[state=closed]:animate-drawerSlideRightAndFade data-[state=open]:animate-drawerSlideLeftAndFade",
             focusRing,
-            className,
+            className
           )}
           {...props}
         />
       </DrawerOverlay>
     </DrawerPortal>
-  )
-})
+  );
+});
 
-DrawerContent.displayName = "DrawerContent"
+DrawerContent.displayName = "DrawerContent";
 
 const DrawerHeader = React.forwardRef<
   HTMLDivElement,
@@ -118,10 +118,10 @@ const DrawerHeader = React.forwardRef<
         </Button>
       </DrawerPrimitives.Close>
     </div>
-  )
-})
+  );
+});
 
-DrawerHeader.displayName = "Drawer.Header"
+DrawerHeader.displayName = "Drawer.Header";
 
 const DrawerTitle = React.forwardRef<
   React.ElementRef<typeof DrawerPrimitives.Title>,
@@ -134,22 +134,22 @@ const DrawerTitle = React.forwardRef<
       "text-base font-semibold",
       // text color
       "text-gray-900 dark:text-gray-50",
-      className,
+      className
     )}
     {...props}
   />
-))
+));
 
-DrawerTitle.displayName = "DrawerTitle"
+DrawerTitle.displayName = "DrawerTitle";
 
 const DrawerBody = React.forwardRef<
   HTMLDivElement,
   React.ComponentPropsWithoutRef<"div">
 >(({ className, ...props }, ref) => {
-  return <div ref={ref} className={cx("flex-1 py-4", className)} {...props} />
-})
+  return <div ref={ref} className={cx("flex-1 py-4", className)} {...props} />;
+});
 
-DrawerBody.displayName = "Drawer.Body"
+DrawerBody.displayName = "Drawer.Body";
 
 const DrawerDescription = React.forwardRef<
   React.ElementRef<typeof DrawerPrimitives.Description>,
@@ -161,10 +161,10 @@ const DrawerDescription = React.forwardRef<
       className={cx("text-gray-500 dark:text-gray-500", className)}
       {...props}
     />
-  )
-})
+  );
+});
 
-DrawerDescription.displayName = "DrawerDescription"
+DrawerDescription.displayName = "DrawerDescription";
 
 const DrawerFooter = ({
   className,
@@ -174,14 +174,14 @@ const DrawerFooter = ({
     <div
       className={cx(
         "flex flex-col-reverse border-t border-gray-200 pt-4 sm:flex-row sm:justify-end sm:space-x-2 dark:border-gray-900",
-        className,
+        className
       )}
       {...props}
     />
-  )
-}
+  );
+};
 
-DrawerFooter.displayName = "DrawerFooter"
+DrawerFooter.displayName = "DrawerFooter";
 
 export {
   Drawer,
@@ -193,4 +193,4 @@ export {
   DrawerHeader,
   DrawerTitle,
   DrawerTrigger,
-}
+};
