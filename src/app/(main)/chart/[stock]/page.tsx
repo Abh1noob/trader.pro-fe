@@ -224,15 +224,7 @@ const TradingViewWidget: React.FC = () => {
               </Button>
             </DialogTrigger>
             <DialogContent className="p-0 bg-transparent border-none shadow-xl w-fit">
-              <TradeForm
-                stockCode={settings.stock_code}
-                onSuccess={refetch}
-                close={
-                  marketData && marketData.length > 0
-                    ? marketData[marketData.length - 1].close || 0
-                    : 0
-                }
-              />
+              <TradeForm stockCode={settings.stock_code} onSuccess={refetch} />
             </DialogContent>
           </Dialog>
         </div>

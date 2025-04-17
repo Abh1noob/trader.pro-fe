@@ -1,11 +1,14 @@
 "use client";
 import React from "react";
 import { NavigationLinksProps } from "./types";
+import { usePathname } from "next/navigation";
 
 const NavigationLinks: React.FC<NavigationLinksProps> = ({
   links,
   isMobile = false,
 }) => {
+  const path = usePathname();
+
   if (isMobile) {
     return (
       <div className="flex flex-col space-y-2">
@@ -33,7 +36,7 @@ const NavigationLinks: React.FC<NavigationLinksProps> = ({
           key={index}
           href={link.href}
           className={`border-b-2 px-1 pt-1 pb-3 text-sm font-medium transition-colors ${
-            link.isActive
+            path.includes(link.href)
               ? "text-gray-900 dark:text-white border-blue-500 dark:border-blue-400"
               : "text-gray-500 dark:text-gray-300 hover:text-gray-700 dark:hover:text-white border-transparent hover:border-gray-300 dark:hover:border-gray-700"
           }`}

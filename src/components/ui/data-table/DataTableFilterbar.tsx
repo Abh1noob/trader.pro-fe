@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
-import { Button } from "@/components/Button";
+import { Button } from "@/components/button";
 import { Searchbar } from "@/components/Searchbar";
 import { conditions, regions, statuses } from "@/data/data";
 import { RiDownloadLine } from "@remixicon/react";

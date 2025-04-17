@@ -10,7 +10,7 @@ import ReactDOM from "react-dom";
 import invariant from "tiny-invariant";
 
 import { Button } from "@/components/button";
-import { Checkbox } from "@/components/Checkbox";
+import { Checkbox } from "@/components/checkbox";
 import { Label } from "@/components/Label";
 import { cx } from "@/lib/utils";
 import { triggerPostMoveFlash } from "@atlaskit/pragmatic-drag-and-drop-flourish/trigger-post-move-flash";

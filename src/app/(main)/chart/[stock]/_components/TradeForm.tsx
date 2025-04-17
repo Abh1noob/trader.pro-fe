@@ -2,57 +2,87 @@ import React, { useEffect, useState } from "react";
 import { AxiosError } from "axios";
 import { ArrowUpCircle, ArrowDownCircle, Hash, Loader2 } from "lucide-react";
 import { api } from "@/app/api";
+import { getHistoricalData } from "../services";
+import { useQuery } from "@tanstack/react-query";
 
 interface TradeFormProps {
   stockCode: string;
-  close: string;
   onSuccess?: () => void;
 }
 
 type TradeType = "buy" | "sell";
 
-const TradeForm: React.FC<TradeFormProps> = ({
-  stockCode,
-  close,
-  onSuccess,
-}) => {
+const TradeForm: React.FC<TradeFormProps> = ({ stockCode, onSuccess }) => {
   const [tradeType, setTradeType] = useState<TradeType>("buy");
   const [quantity, setQuantity] = useState<number>(1);
-  const [price, setPrice] = useState<string>("");
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
+  const [formError, setFormError] = useState<string | null>(null);
   const [success, setSuccess] = useState(false);
-  const [closeData, setCloseData] = useState<string>("");
+
+  const [settings, setSettings] = useState({
+    interval: "1day",
+    from_date: "",
+    to_date: "",
+    stock_code: stockCode,
+    exchange_code: "NSE",
+    product_type: "cash",
+    expiry_date: "",
+    right: "call",
+    strike_price: "",
+  });
 
   useEffect(() => {
-    setCloseData(close);
-  }, [close]);
+    if (typeof window !== "undefined") {
+      const date =
+        localStorage.getItem("simulationDate") || new Date().toISOString();
+      setSettings((prev) => ({
+        ...prev,
+        from_date: date,
+        to_date: date,
+      }));
+    }
+  }, [stockCode]);
+
+  const {
+    data: marketData,
+    isLoading: priceLoading,
+    error: priceError,
+  } = useQuery({
+    queryKey: ["current-price", settings],
+    queryFn: () => getHistoricalData(settings),
+    enabled: !!settings.stock_code,
+  });
+
+  const currentPrice =
+    marketData && marketData.length > 0 ? Number(marketData[0].close) : null;
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
-    setError(null);
+    setFormError(null);
     setSuccess(false);
 
-    console.log("Price:", price);
-
     try {
+      if (!currentPrice) {
+        setFormError("Market price not available.");
+        setLoading(false);
+        return;
+      }
       await api.post("/simulation/trade", {
         symbol: stockCode,
         trade_type: tradeType,
         quantity: Number(quantity),
-        price: Number(closeData),
+        price: currentPrice,
       });
       setLoading(false);
       setSuccess(true);
       setQuantity(1);
-      setPrice("");
       setTimeout(() => setSuccess(false), 3000);
       if (onSuccess) onSuccess();
     } catch (error) {
       const err = error as AxiosError;
       setLoading(false);
-      setError(err.message || "Failed to place trade");
+      setFormError(err.message || "Failed to place trade. Please try again.");
       console.error(err);
     }
   };
@@ -111,20 +141,39 @@ const TradeForm: React.FC<TradeFormProps> = ({
           </div>
         </div>
 
-        {price && quantity ? (
+        <div>
+          <label className="block text-sm font-medium text-gray-400 mb-1">
+            Market Price
+          </label>
+          <div className="flex items-center gap-2">
+            {priceLoading ? (
+              <Loader2 className="h-5 w-5 animate-spin text-gray-400" />
+            ) : currentPrice ? (
+              <span className="text-lg font-semibold text-white">
+                ₹{currentPrice.toFixed(2)}
+              </span>
+            ) : priceError ? (
+              <span className="text-red-400 text-sm">Price unavailable</span>
+            ) : (
+              <span className="text-gray-400 text-sm">No data</span>
+            )}
+          </div>
+        </div>
+
+        {currentPrice && quantity ? (
           <div className="bg-gray-800 p-3 rounded-md mt-1">
             <div className="flex justify-between text-sm">
               <span className="text-gray-400">Estimated Total:</span>
               <span className="font-medium text-white">
-                ${(Number(price) * quantity).toFixed(2)}
+                ₹{(currentPrice * quantity).toFixed(2)}
               </span>
             </div>
           </div>
         ) : null}
 
-        {error && (
+        {formError && (
           <div className="bg-red-900/30 border border-red-700 text-red-400 p-3 rounded-md text-sm">
-            {error}
+            {formError}
           </div>
         )}
 
@@ -141,7 +190,7 @@ const TradeForm: React.FC<TradeFormProps> = ({
               ? "bg-green-600 hover:bg-green-700 text-white"
               : "bg-red-600 hover:bg-red-700 text-white"
           } disabled:opacity-50 disabled:cursor-not-allowed transition-all`}
-          disabled={loading}
+          disabled={loading || !currentPrice}
         >
           {loading ? (
             <>

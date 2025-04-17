@@ -11,10 +11,10 @@ import { Input } from "../Input";
 import { Label } from "../Label";
 
 const navLinks = [
-  { href: "#", label: "Dashboard", isActive: true },
+  { href: "/home", label: "Dashboard", isActive: true },
   { href: "#", label: "Orders", isActive: false },
   { href: "#", label: "Holdings", isActive: false },
-  { href: "#", label: "Positions", isActive: false },
+  { href: "/trades", label: "Trades", isActive: false },
 ];
 
 function useLocalStorageDate(key: string, initialValue?: Date) {

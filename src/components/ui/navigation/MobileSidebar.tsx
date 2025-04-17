@@ -1,5 +1,5 @@
 import { siteConfig } from "@/app/siteConfig";
-import { Button } from "@/components/Button";
+import { Button } from "@/components/button";
 import {
   Drawer,
   DrawerBody,
