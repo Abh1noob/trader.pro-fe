@@ -64,11 +64,9 @@ export function LoginForm({
         <Button type="submit" className="w-full">
           Login
         </Button>
-        <div className="relative text-center text-sm after:absolute after:inset-0 after:top-1/2 after:z-0 after:flex after:items-center after:border-t after:border-border">
-          <span className="relative z-10 px-2 text-muted-foreground">
-            or continue with
-          </span>
-        </div>
+        <span className="relative z-50 px-2 text-white text-center text-xs">
+          or continue with
+        </span>
         <div
           className={cn(
             "relative inline-flex items-center justify-center whitespace-nowrap rounded-md border px-3 py-2 text-center text-sm font-medium shadow-sm transition-all duration-100 ease-in-out",
